@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block body %}
+
+
+  
+  <script type="text/javascript">
+
+  var API = "https://shelterx2.firebaseio.com/.json";
+
+  $.getJSON(API, function (json) {
+
+  /*var email=json.data.email;
+  var country=json.data.country;
+  var description=json.data.description;
+  var duration=json.data.duration;
+  var name=json.data.name;
+  var phone=json.data.phone;
+  var city=json.data.city;*/
+
+    /*for(key in json.data)
+    {
+      var email=json.data[key].email;
+      var country=json.data[key].country;
+      var description=json.data[key].description;
+      var duration=json.data[key].duration;
+      var name=json.data[key].name;
+      var phone=json.data[key].phone;
+      var city=json.data[key].city;*/
+
+      var count=1;
+      var select = document.getElementById("mySelect");  
+      for(key in json.data)
+      {
+        if(json.data[key].city!="")
+          select.options[select.options.length] = new Option(json.data[key].city,count++);  
+      }
+      var selected_City=$("#mySelect :selected").text();
+
+      for(key in json.data)
+        if(json.data[key].city=="Berlin")
+          $('#next1').html(json.data[key].city);
+
+
+
+      /*$('.email').html(email);
+      $('.country').html(country);   
+      $('.description').html(description);
+      $('.duration').html(duration);
+      $('.name').html(name);
+      $('.phone').html(phone);
+      $('.city').html(city);*/
+   
+
+
+    //}
+
+    });
+
+  </script>
+
+
+  <div class="container">
+
+  <div class="col-md-4 col-md-offset-4">
+  <br>
+
+
+  <select  id="mySelect" class="form-control form-control-light">
+    <option>Please select your city</option>
+  </select>
+  <br>
+  <ul class="list-group">
+    <li id="next1" class="list-group-item">Hi</li>
+
+  </ul>
+
+</div>
+</div>
+
+{% endblock %}
