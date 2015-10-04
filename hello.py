@@ -18,11 +18,11 @@ def index():
 @app.route('/email', methods=['POST'])
 def email():
 	email=request.form['email']
-	return flask.render_template('email.html')
+	return flask.render_template('email.html',email=email)
 
 @app.route('/register')
 def register():
-	return flask.render_template('register.html')
+	return flask.render_template('register.html',)
 
 @app.route('/info')
 def info():
