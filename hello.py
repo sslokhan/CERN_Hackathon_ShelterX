@@ -1,3 +1,5 @@
+import requests
+
 import flask
 from flask import Flask, redirect, request
 import sqlite3
@@ -12,6 +14,11 @@ app = Flask(__name__)
 @app.route('/')
 def index():
 	return flask.render_template('index.html')
+
+@app.route('/email', methods=['POST'])
+def email():
+	email=request.form['email']
+	return flask.render_template('email.html')
 
 @app.route('/register')
 def register():
@@ -54,6 +61,7 @@ def main():
 	#f=open('json_db', 'w') 
 	#print >> f,rows_json
 	#db.close()
+	city_entries = requests.get('https://shelterx2.firebaseio.com/.json').json
 	return flask.render_template('main.html')
 
 if __name__ == '__main__':

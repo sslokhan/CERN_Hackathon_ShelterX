@@ -2,8 +2,8 @@
 {% block body %}
 
 
-  
-  <script type="text/javascript">
+
+<script type="text/javascript">
 
   var API = "https://shelterx2.firebaseio.com/.json";
 
@@ -34,11 +34,59 @@
         if(json.data[key].city!="")
           select.options[select.options.length] = new Option(json.data[key].city,count++);  
       }
-      var selected_City=$("#mySelect :selected").text();
+      //var selected_City=$("#mySelect :selected").text();
 
-      for(key in json.data)
-        if(json.data[key].city=="Berlin")
-          $('#next1').html(json.data[key].city);
+
+      $('#mySelect').change(function() {
+          // make AJAX call to update the second select list
+          $.ajax({
+            success: function(data){ 
+                var selected_City=$("#mySelect :selected").text();
+                for(key in json.data)
+                {
+                  if(json.data[key].city==selected_City)
+                  {
+
+                    var list_item=json.data[key];
+
+                    var ul = $('<ul class="list-group"></ul>');
+
+                    ul.append($('<li class="list-group-item" style="font-weight: bold;">'+json.data[key].name+'</li>')).appendTo('#block');
+                    //ul.append($('<li class="list-group-item">'+json.data[key].email+'</li>')).appendTo('#block');
+
+                    ul.append($('<form action="email" method="post"><input type="submit" value='+json.data[key].email+' name="email" class="btn btn-primary btn-block"></input></form>')).appendTo('#block');
+
+                    ul.append($('<li class="list-group-item">'+json.data[key].country+'</li>')).appendTo('#block');
+                    if(json.data[key].duration!="")
+                      ul.append($('<li class="list-group-item">'+json.data[key].duration+'</li>')).appendTo('#block');
+                    if(json.data[key].phone!="")
+                      ul.append($('<li class="list-group-item">'+json.data[key].phone+'</li>')).appendTo('#block');
+                    ul.append($('<li class="list-group-item">'+json.data[key].city+'</li>')).appendTo('#block');
+                    if(json.data[key].description!="")
+                      ul.append($('<li class="list-group-item">'+json.data[key].description+'</li>')).appendTo('#block');
+                    ul.append($('<br>')).appendTo('#block');
+
+
+
+                    //$('#block').append($('<ul class="list-group">'));
+                    
+                    
+                    //$('<ul class="list-group">').append($('<li class="list-group-item">'+ json.data[key].description+'</li>')); 
+                    //$('<ul class="list-group"></ul>').append(json.data[key].email)
+                    //$('<ul class="list-group"></ul>').append(json.data[key].country)
+                    //$('<ul class="list-group"></ul>').append(json.data[key].duration)
+                    //$('<ul class="list-group"></ul>').append(json.data[key].name)
+                    //$('<ul class="list-group"></ul>').append(json.data[key].phone)
+                    //$('<ul class="list-group"></ul>').append(json.data[key].city);
+                    //$('#block').append($('</ul>'));
+
+
+                  }
+                }
+              }
+            });
+        });
+
 
 
 
@@ -69,10 +117,9 @@
     <option>Please select your city</option>
   </select>
   <br>
-  <ul class="list-group">
-    <li id="next1" class="list-group-item">Hi</li>
-
-  </ul>
+  <div id="block">
+  
+</div>
 
 </div>
 </div>
